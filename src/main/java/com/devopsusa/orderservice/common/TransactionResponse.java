@@ -12,6 +12,7 @@ public class TransactionResponse {
     private Order order;
     private double amount;
     private String transactionId;
+    private String paymentStatus;
     private String message;
 
 }

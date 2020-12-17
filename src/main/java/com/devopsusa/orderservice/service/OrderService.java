@@ -17,9 +17,9 @@ import java.util.Optional;
 public class OrderService  {
 
     @Autowired
-    private OrderRepository orderRepository;
+    public OrderRepository orderRepository;
     @Autowired
-    private RestTemplate restTemplate;
+    public RestTemplate restTemplate;
 
     public TransactionResponse saveOrder(TransactionRequest request) {
         String message="";
@@ -30,11 +30,10 @@ public class OrderService  {
         Payment paymentResponse = restTemplate.postForObject("http://PAYMENT-SERVICE/payment/doPayment",payment,
                 Payment.class);
 
-        message = paymentResponse.getPaymentStatus().equals("success") ? "payment processing successful and order placed"
-                :"payment api failed,order added to cart";
+        message = paymentResponse.getPaymentStatus().equals("success") ? "payment processing successful and order placed" :"payment api failed,order added to cart";
         orderRepository.save(order);
         payment.setOrderId(request.getOrder().getId());
-        return new TransactionResponse(order,paymentResponse.getAmount(),paymentResponse.getTransactionId(),message);
+        return new TransactionResponse(order,paymentResponse.getAmount(),paymentResponse.getTransactionId(),paymentResponse.getPaymentStatus(),message);
     }
 
 
@@ -53,7 +52,7 @@ public class OrderService  {
             payment.setTransactionId(paymentResponse.getTransactionId());
             payment.setAmount(payload.getOrder().getPrice());
             payment.setOrderId(payload.getOrder().getId());
-            return new TransactionResponse(payload.getOrder(),payment.getAmount(),payment.getTransactionId(),message);
+            return new TransactionResponse(payload.getOrder(),payment.getAmount(),payment.getTransactionId(),payment.getPaymentStatus(),message);
         } else {
             throw new RecordNotFoundException("No order record exist for given id");
         }
