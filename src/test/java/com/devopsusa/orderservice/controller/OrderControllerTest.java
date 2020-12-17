@@ -23,6 +23,8 @@ import java.net.URISyntaxException;
 @SpringBootTest(classes = {RestTemplate.class,OrderService.class})
 public class OrderControllerTest {
 
+    private static String str = "http://localhost:8083/api/orders";
+
     @MockBean
     private OrderRepository orderRepository;
 
@@ -34,10 +36,10 @@ public class OrderControllerTest {
     }
 
     @Test
-    void shouldPlaceFruitOrderTest() throws URISyntaxException {
-        final String baseURL = "http://localhost:8083/api/orders/fruit";
+    public void shouldPlaceFruitOrderTest() throws URISyntaxException {
+        final String baseURL = str + "/fruit";
         URI uri = new URI(baseURL);
-        Order order = new Order(104,"Banana",10,4.99);
+        Order order = new Order(103,"Orange",5,3.49);
         Payment payment = new Payment();
         payment.setOrderId(order.getId());
         payment.setAmount(order.getPrice());
@@ -45,8 +47,20 @@ public class OrderControllerTest {
         httpHeaders.set("Content-Type","application/json");
         TransactionRequest transactionRequest = new TransactionRequest(order,payment);
         HttpEntity<TransactionRequest> httpEntity = new HttpEntity<TransactionRequest>(transactionRequest,httpHeaders);
-        ResponseEntity<TransactionResponse> responseResponseEntity = this.template.postForEntity(uri,httpEntity,TransactionResponse.class);
+        ResponseEntity<TransactionResponse> responseResponseEntity =
+                this.template.postForEntity(uri,httpEntity,TransactionResponse.class);
 
         assertEquals(201,responseResponseEntity.getStatusCodeValue());
+    }
+
+    @Test
+    public void shouldgetAllFruitOrderTest() throws URISyntaxException {
+        final String baseURL = str + "/all";
+        URI uri = new URI(baseURL);
+        ResponseEntity<String> responseResponseEntity = this.template.getForEntity(uri,String.class);
+        String orders = responseResponseEntity.getBody();
+        System.out.println("The Orders Object = " + orders);
+
+        assertEquals(200,responseResponseEntity.getStatusCodeValue());
     }
 }
