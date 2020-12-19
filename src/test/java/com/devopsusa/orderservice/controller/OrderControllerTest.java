@@ -63,4 +63,16 @@ public class OrderControllerTest {
 
         assertEquals(200,responseResponseEntity.getStatusCodeValue());
     }
+
+    @Test
+    public void shouldgetFruitOrderByIdTest() throws URISyntaxException {
+        final String baseURL = str + "/fruit/103";
+        URI uri = new URI(baseURL);
+        ResponseEntity<Order> responseResponseEntity = this.template.getForEntity(uri,Order.class);
+        Order order = responseResponseEntity.getBody();
+        System.out.println("The Orders Object with id 103 = " + order);
+
+        assertEquals(200,responseResponseEntity.getStatusCodeValue());
+    }
+
 }

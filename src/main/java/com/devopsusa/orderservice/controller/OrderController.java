@@ -59,7 +59,7 @@ public class OrderController {
         return new ResponseEntity<List<Order>>(orders, new HttpHeaders(),HttpStatus.OK);
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/orders/fruit/{id}")
     @ApiOperation(value = "Get fruit by order id by /orders/{id}",
             notes = "Get fruit order by id",
             response = Order.class)
