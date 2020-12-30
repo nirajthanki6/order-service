@@ -33,6 +33,7 @@ public class OrderController {
     @ApiOperation(value = "Place fruit order by /orders/fruit",
             notes = "Place an order to cart and payment processing",
             response = TransactionResponse.class)
+    @ResponseBody
     public ResponseEntity<TransactionResponse> fruitOrder(@RequestBody TransactionRequest payload){
         TransactionResponse transactionResponse = orderService.saveOrder(payload);
         return new ResponseEntity<TransactionResponse>(transactionResponse, new HttpHeaders(), HttpStatus.CREATED);
@@ -42,6 +43,7 @@ public class OrderController {
     @ApiOperation(value = "Update fruit order by /orders/fruit/{id}",
             notes = "Update an order to cart and payment processing",
             response = TransactionResponse.class)
+    @ResponseBody
     public ResponseEntity<TransactionResponse> updateFruitOrder(@RequestBody TransactionRequest payload,
                                                                 @PathVariable Integer id) throws RecordNotFoundException {
         TransactionResponse transactionResponse = orderService.updateOrder(id,payload);
