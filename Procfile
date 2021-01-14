@@ -1,1 +1,0 @@
-web: java $JAVA_OPTS -Dserver.port=8083 -Dspring.application.name=order-service -jar target/orderservice-0.0.1-SNAPSHOT.jar
