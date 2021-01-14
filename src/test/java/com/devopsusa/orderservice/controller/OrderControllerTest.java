@@ -4,6 +4,7 @@ import com.devopsusa.orderservice.common.Payment;
 import com.devopsusa.orderservice.common.TransactionRequest;
 import com.devopsusa.orderservice.common.TransactionResponse;
 import com.devopsusa.orderservice.domain.Order;
+import com.devopsusa.orderservice.exception.RecordNotFoundException;
 import com.devopsusa.orderservice.repository.OrderRepository;
 import com.devopsusa.orderservice.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.*;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
+import java.util.Optional;
 
 
 @SpringBootTest
@@ -115,12 +117,20 @@ public class OrderControllerTest {
     @Test
     @Disabled
     @DisplayName("GET /orders/fruit/{id} Not Found!")
-    void shouldgetFruitOrderByIdNotFound() throws Exception {
-        Order order = new Order();
-        doThrow(new Exception()).when(orderService).getFruitById(103);
-        mockMvc.perform(get(str + "/fruit/{id}", 103))
-                // Validate the response code and content type
-                .andExpect(status().isNotFound());
+    void shouldgetFruitOrderByIdNotFound() throws RecordNotFoundException {
+
+        doReturn(Optional.empty()).when(orderService).getFruitById(103);
+        try {
+            mockMvc.perform(get(str + "/fruit/{id}", 103))
+                    // Validate the response code and content type
+                    .andExpect(status().isNotFound());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Exception exception = assertThrows(NotFoundException.class, () -> {
+//            orderService.getFruitById(103);
+//        });
+//        assertEquals("",exception.getMessage());
     }
 
     static String asJsonString(final Object obj) {
