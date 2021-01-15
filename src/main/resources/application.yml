@@ -15,7 +15,7 @@ server:
 
 eureka:
   instance:
-    hostname: ${EUREKA_CLIENT_INSTANCE_HOSTNAME}
+    hostname: order-ri-service.herokuapp.com
   client:
     serviceUrl:
       defaultZone: https://springboot-discovery.herokuapp.com/eureka/
