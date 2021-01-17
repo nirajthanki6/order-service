@@ -56,14 +56,14 @@ public class OrderControllerTest {
 
     @Test
     @Disabled
-    @DisplayName("POST /api/orders/fruit")
-    void shouldPlaceFruitOrderTest() throws Exception {
+    @DisplayName("POST /api/orders/placeorder")
+    void shouldPlaceOrderTest() throws Exception {
         Order order = new Order(101,"Apple", 12,6.99);
         Payment payment = new Payment();
         transactionRequest = new TransactionRequest(order,payment);
         transactionResponse = new TransactionResponse();
         doReturn(transactionResponse).when(orderService).saveOrder(any());
-        mockMvc.perform(post(str + "/fruit")
+        mockMvc.perform(post(str + "/placeorder")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(transactionRequest)))
                 .andExpect(status().isCreated())
@@ -100,11 +100,11 @@ public class OrderControllerTest {
     }
 
     @Test
-    @DisplayName("GET /orders/fruit/{id}")
-    void shouldgetFruitOrderById() throws Exception {
+    @DisplayName("GET /api/orders/{id}")
+    void shouldgetOrderById() throws Exception {
         Order orderbyid = new Order(103,"Orange",5,3.99);
         doReturn(orderbyid).when(orderService).getFruitById(103);
-        mockMvc.perform(get(str + "/fruit/{id}", 103))
+        mockMvc.perform(get(str + "/{id}", 103))
                 // Validate the response code and content type
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -116,12 +116,12 @@ public class OrderControllerTest {
 
     @Test
     @Disabled
-    @DisplayName("GET /orders/fruit/{id} Not Found!")
+    @DisplayName("GET /api/orders/{id} Not Found!")
     void shouldgetFruitOrderByIdNotFound() throws RecordNotFoundException {
 
         doReturn(Optional.empty()).when(orderService).getFruitById(103);
         try {
-            mockMvc.perform(get(str + "/fruit/{id}", 103))
+            mockMvc.perform(get(str + "/{id}", 103))
                     // Validate the response code and content type
                     .andExpect(status().isNotFound());
         } catch (Exception e) {

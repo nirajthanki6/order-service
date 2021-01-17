@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/orders/fruit")
-    @ApiOperation(value = "Place fruit order by /orders/fruit",
+    @PostMapping("/placeorder")
+    @ApiOperation(value = "Place order by /placeorder",
             notes = "Place an order to cart and payment processing",
             response = TransactionResponse.class)
     @ResponseBody
@@ -39,8 +39,8 @@ public class OrderController {
         return new ResponseEntity<TransactionResponse>(transactionResponse, new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/orders/fruit/{id}")
-    @ApiOperation(value = "Update fruit order by /orders/fruit/{id}",
+    @PatchMapping("/updateorder/{id}")
+    @ApiOperation(value = "Update order by /updateorder/{id}",
             notes = "Update an order to cart and payment processing",
             response = TransactionResponse.class)
     @ResponseBody
@@ -51,9 +51,9 @@ public class OrderController {
 
     }
 
-    @GetMapping("/orders/all")
-    @ApiOperation(value = "Get all fruit  order by /orders",
-            notes = "Get all fruit order",
+    @GetMapping("/all")
+    @ApiOperation(value = "Get all order by /all",
+            notes = "Get all order",
             response = Order.class)
     @ResponseBody
     public ResponseEntity<List<Order>> getallFruitOrder() {
@@ -61,9 +61,9 @@ public class OrderController {
         return new ResponseEntity<List<Order>>(orders, new HttpHeaders(),HttpStatus.OK);
     }
 
-    @GetMapping("/orders/fruit/{id}")
-    @ApiOperation(value = "Get fruit by order id by /orders/{id}",
-            notes = "Get fruit order by id",
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Get order by id /{id}",
+            notes = "Get order by id",
             response = Order.class)
     @ResponseBody
     public ResponseEntity<Order> getFruitById(@PathVariable("id") Integer id) throws RecordNotFoundException {

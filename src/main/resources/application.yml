@@ -1,6 +1,6 @@
 spring:
   application:
-    name: order-service
+    name: ORDER-SERVICE
   datasource:
     url: jdbc:mysql://devopsusa.com:3306/db_ecommerce
     username: ${DB_USER}
@@ -20,6 +20,8 @@ eureka:
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
   client:
+    register-with-eureka: true
+    fetch-registry: true
     serviceUrl:
       defaultZone: https://springboot-discovery.herokuapp.com/eureka
 
