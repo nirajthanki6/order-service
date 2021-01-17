@@ -3,8 +3,8 @@ spring:
     name: order-service
   datasource:
     url: jdbc:mysql://devopsusa.com:3306/db_ecommerce
-    username: order_service
-    password: devop$ad1Min
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     jpa:
       hibernate.ddl-auto: update
       generate-ddl: true
@@ -15,7 +15,8 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${HOST_NAME}
+    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: https://springboot-discovery.herokuapp.com/eureka
