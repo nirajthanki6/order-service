@@ -15,7 +15,6 @@ server:
 
 eureka:
   instance:
-    hostname: ${HOST_NAME}
     preferIpAddress: true
   client:
     serviceUrl:
