@@ -17,7 +17,7 @@ eureka:
   instance:
     instanceId: ${spring.application.name}
     hostname: ${spring.application.name}
-    preferIpAddress: true
+    preferIpAddress: false
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
   client:
