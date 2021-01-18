@@ -15,7 +15,7 @@ server:
 
 eureka:
   instance:
-    hostname: ${vcap.application.uris[0]:localhost}
+    hostname: ${spring.application.name}
     preferIpAddress: false
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20
