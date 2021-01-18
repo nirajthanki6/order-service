@@ -27,6 +27,7 @@ public class OrderService  {
         Payment payment = request.getPayment();
         payment.setOrderId(order.getId());
         payment.setAmount(order.getPrice());
+        System.out.println("Inside SaveOrder Method in OrderService Class");
         Payment paymentResponse = restTemplate.postForObject("http://PAYMENT-SERVICE/api/payment/doPayment",payment,
                 Payment.class);
 
