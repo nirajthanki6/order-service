@@ -3,6 +3,7 @@ package com.devopsusa.orderservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -37,8 +38,8 @@ public class OrderserviceApplication {
 
 	@Bean
 	@LoadBalanced
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
+	public RestTemplate restTemplate(RestTemplateBuilder builder){
+		return builder.build();
 	}
 
 	@Bean
