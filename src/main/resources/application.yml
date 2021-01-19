@@ -17,7 +17,7 @@ eureka:
   instance:
     instanceId: ${spring.application.name}
     non-secure-port: 80
-    hostname: ${spring.application.name}
+    hostname: devopsusa-order-service.herokuapp.com
     preferIpAddress: false
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 20

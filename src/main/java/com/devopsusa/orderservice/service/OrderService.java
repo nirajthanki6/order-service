@@ -7,6 +7,7 @@ import com.devopsusa.orderservice.domain.Order;
 import com.devopsusa.orderservice.exception.RecordNotFoundException;
 import com.devopsusa.orderservice.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +20,7 @@ public class OrderService  {
     @Autowired
     public OrderRepository orderRepository;
     @Autowired
+    @LoadBalanced
     public RestTemplate restTemplate;
 
     public TransactionResponse saveOrder(TransactionRequest request) {
