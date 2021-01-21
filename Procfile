@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.profiles.active=release $JAVA_OPTS -jar target/gatewayservice-0.0.1-SNAPSHOT.jar
