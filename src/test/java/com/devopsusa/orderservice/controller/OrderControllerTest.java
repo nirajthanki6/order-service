@@ -61,8 +61,9 @@ public class OrderControllerTest {
         Order order = new Order(101,"Apple", 12,6.99);
         Payment payment = new Payment();
         transactionRequest = new TransactionRequest(order,payment);
-        transactionResponse = new TransactionResponse();
-        doReturn(transactionResponse).when(orderService).saveOrder(any());
+        TransactionResponse transactionResponse = new TransactionResponse(order,6.99,"d96b1971-1c84-4aaf-9224-f62b6d8ae9a5","success","payment processing successful and order placed");
+        when(orderService.saveOrder(transactionRequest)).thenReturn(transactionResponse);
+//        doReturn(transactionResponse).when(orderService).saveOrder(transactionRequest);
         mockMvc.perform(post(str + "/placeorder")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(transactionRequest)))
@@ -83,7 +84,7 @@ public class OrderControllerTest {
     void shouldgetAllOrdersTest() throws Exception {
         Order order2 = new Order(101,"Apple", 12,6.99);
         Order order3 = new Order(102,"Banana",12,5.99);
-        doReturn(Lists.newArrayList(order2,order3)).when(orderService).getallFruitOrder();
+        doReturn(Lists.newArrayList(order2,order3)).when(orderService).getallOrder();
         mockMvc.perform(get(str + "/all"))
                 // Validate the response code and content type
                 .andExpect(status().isOk())
@@ -103,7 +104,7 @@ public class OrderControllerTest {
     @DisplayName("GET /api/orders/{id}")
     void shouldgetOrderById() throws Exception {
         Order orderbyid = new Order(103,"Orange",5,3.99);
-        doReturn(orderbyid).when(orderService).getFruitById(103);
+        doReturn(orderbyid).when(orderService).getOrderById(103);
         mockMvc.perform(get(str + "/{id}", 103))
                 // Validate the response code and content type
                 .andExpect(status().isOk())
@@ -119,7 +120,7 @@ public class OrderControllerTest {
     @DisplayName("GET /api/orders/{id} Not Found!")
     void shouldgetFruitOrderByIdNotFound() throws RecordNotFoundException {
 
-        doReturn(Optional.empty()).when(orderService).getFruitById(103);
+        doReturn(Optional.empty()).when(orderService).getOrderById(103);
         try {
             mockMvc.perform(get(str + "/{id}", 103))
                     // Validate the response code and content type

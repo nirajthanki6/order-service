@@ -19,6 +19,7 @@ public class OrderService  {
 
     @Autowired
     public OrderRepository orderRepository;
+
     @Autowired
     @LoadBalanced
     public RestTemplate restTemplate;
@@ -43,31 +44,32 @@ public class OrderService  {
     public TransactionResponse updateOrder(Integer id, TransactionRequest payload) throws RecordNotFoundException {
         Optional<Order> order = orderRepository.findById(id);
 
-        if(order.isPresent()) {
-            String message="";
-            orderRepository.save(payload.getOrder());
-            Payment payment = payload.getPayment();
-            Payment paymentResponse = restTemplate.postForObject("http://PAYMENT-SERVICE/api/payment/doPayment",payment,
-                    Payment.class);
-            message = paymentResponse.getPaymentStatus().equals("success") ? "payment processing successful and order placed"
-                    :"payment api failed,order added to cart";
-            payment.setPaymentStatus(paymentResponse.getPaymentStatus());
-            payment.setTransactionId(paymentResponse.getTransactionId());
-            payment.setAmount(payload.getOrder().getPrice());
-            payment.setOrderId(payload.getOrder().getId());
-            return new TransactionResponse(payload.getOrder(),payment.getAmount(),payment.getTransactionId(),payment.getPaymentStatus(),message);
-        } else {
-            throw new RecordNotFoundException("No order record exist for given id");
-        }
+            if (order.isPresent()) {
+                String message = "";
+                orderRepository.save(payload.getOrder());
+                Payment payment = payload.getPayment();
+                Payment paymentResponse = restTemplate.postForObject("http://PAYMENT-SERVICE/api/payment/doPayment", payment,
+                        Payment.class);
+                message = paymentResponse.getPaymentStatus().equals("success") ? "payment processing successful and order placed"
+                        : "payment api failed,order added to cart";
+                payment.setPaymentStatus(paymentResponse.getPaymentStatus());
+                payment.setTransactionId(paymentResponse.getTransactionId());
+                payment.setAmount(payload.getOrder().getPrice());
+                payment.setOrderId(payload.getOrder().getId());
+                return new TransactionResponse(payload.getOrder(), payment.getAmount(),
+                        payment.getTransactionId(), payment.getPaymentStatus(), message);
+            } else {
+                throw new RecordNotFoundException("No order record exist for given id");
+            }
+
     }
 
-    public List<Order> getallFruitOrder() {
+    public List<Order> getallOrder() {
         return orderRepository.findAll();
     }
 
-    public Order getFruitById(Integer id) throws RecordNotFoundException {
+    public Order getOrderById(Integer id) throws RecordNotFoundException {
         Optional<Order> order = orderRepository.findById(id);
-
         if(order.isPresent()) {
             return order.get();
         } else {

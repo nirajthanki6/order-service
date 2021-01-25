@@ -34,7 +34,7 @@ public class OrderController {
             notes = "Place an order to cart and payment processing",
             response = TransactionResponse.class)
     @ResponseBody
-    public ResponseEntity<TransactionResponse> fruitOrder(@RequestBody TransactionRequest payload){
+    public ResponseEntity<TransactionResponse> Order(@RequestBody TransactionRequest payload){
         TransactionResponse transactionResponse = orderService.saveOrder(payload);
         return new ResponseEntity<TransactionResponse>(transactionResponse, new HttpHeaders(), HttpStatus.CREATED);
     }
@@ -44,7 +44,7 @@ public class OrderController {
             notes = "Update an order to cart and payment processing",
             response = TransactionResponse.class)
     @ResponseBody
-    public ResponseEntity<TransactionResponse> updateFruitOrder(@RequestBody TransactionRequest payload,
+    public ResponseEntity<TransactionResponse> updateOrder(@RequestBody TransactionRequest payload,
                                                                 @PathVariable Integer id) throws RecordNotFoundException {
         TransactionResponse transactionResponse = orderService.updateOrder(id,payload);
         return new ResponseEntity<TransactionResponse>(transactionResponse, new HttpHeaders(), HttpStatus.OK);
@@ -56,8 +56,8 @@ public class OrderController {
             notes = "Get all order",
             response = Order.class)
     @ResponseBody
-    public ResponseEntity<List<Order>> getallFruitOrder() {
-        List<Order> orders = orderService.getallFruitOrder();
+    public ResponseEntity<List<Order>> getallOrder() {
+        List<Order> orders = orderService.getallOrder();
         return new ResponseEntity<List<Order>>(orders, new HttpHeaders(),HttpStatus.OK);
     }
 
@@ -66,8 +66,8 @@ public class OrderController {
             notes = "Get order by id",
             response = Order.class)
     @ResponseBody
-    public ResponseEntity<Order> getFruitById(@PathVariable("id") Integer id) throws RecordNotFoundException {
-        Order order = orderService.getFruitById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable("id") Integer id) throws RecordNotFoundException {
+        Order order = orderService.getOrderById(id);
         return new ResponseEntity<Order>(order,new HttpHeaders(),HttpStatus.OK);
     }
 }
